@@ -5,7 +5,6 @@ Requirements:
 * OpenCV (on Ubuntu, e.g., install libopencv-dev and python-opencv).
 * SMPL (download at http://smpl.is.tue.mpg.de/downloads) and unzip to a 
   place of your choice.
-* Eigen3 (download at http://eigen.tuxfamily.org and unzip).
 * OpenDR (just run `pip install opendr`, unfortunately can't be done automatically
   with the setuptools requirements.
 * If you want to train a segmentation model, Deeplab V2
@@ -41,7 +40,5 @@ you use this code for your research, please consider citing us:
   month_numeric = {7}
 }
 ```
-
-**Additional credit goes to Raffi Enficiaud for his work on the fast derivative implementations included in the `up_tools`.**
 
 License: [Creative Commons Non-Commercial 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
