@@ -1,0 +1,15 @@
+*.pyc
+*.so
+*.egg-info
+*.z
+build
+segmentation/training
+pose/training
+up_tools/sample2meshdist.cpp
+up_tools/fast_derivatives/smpl_derivatives.cpp
+models/pose/deepercut.caffemodel
+.#*
+applications
+
+models/pose/train2_iter_500000.caffemodel
+.*_cache
