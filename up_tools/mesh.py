@@ -3,10 +3,6 @@
 import numpy as np
 import random
 import scipy.sparse as sp
-import chumpy as ch
-from chumpy import Ch
-import numpy.lib.recfunctions as rfn
-from up_tools import sample2meshdist
 import plyfile
 
 
