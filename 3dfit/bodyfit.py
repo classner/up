@@ -45,9 +45,11 @@ except ImportError:
     try:
         from psbody.smpl.serialization import load_model as _load_model
         from psbody.smpl.lbs import global_rigid_transformation as _global_rigid_transformation
+        from psbody.smpl.verts import verts_decorated
     except:
         from smpl_webuser.serialization import load_model as _load_model
         from smpl_webuser.lbs import global_rigid_transformation as _global_rigid_transformation
+        from smpl_webuser.verts import verts_decorated
 from up_tools.sphere_collisions import SphereCollisions as _SphereCollisions
 from up_tools.max_mixture_prior import MaxMixtureCompletePrior as _MaxMixtureCompletePrior
 from up_tools.model import landmarks_91, landmark_mesh_91, enum
@@ -372,10 +374,19 @@ def optimize_on_joints(j2d,
         J_onbetas = _ch.array(Jdirs).dot(betas) + model.J_regressor.dot(model.v_template.r)
 
         # instantiate the model
-        sv = _SmplModelLBS(pose=_ch.array(init_pose),
-                           trans=_ch.zeros(3),
-                           betas=betas,
-                           model=model)
+        sv = verts_decorated(
+            trans=_ch.zeros(3),
+            pose=_ch.array(init_pose),
+            v_template=model.v_template,
+            J=model.J_regressor,
+            betas=betas,
+            shapedirs=model.shapedirs[:, :, :n_betas],
+            weights=model.weights,
+            kintree_table=model.kintree_table,
+            bs_style=model.bs_style,
+            f=model.f,
+            bs_type=model.bs_type,
+            posedirs=model.posedirs)
 
         # get joint positions as a function of model pose, betas and trans
         (_, A_global) = _global_rigid_transformation(
