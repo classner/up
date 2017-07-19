@@ -90,10 +90,10 @@ def estimate_pose(image, scales=None):  # pylint: disable=too-many-locals
                           'pose',
                           'testpy_val_91_500_pkg.prototxt'),
             _os.path.join(_os.path.abspath(_os.path.dirname(__file__)),
-                          '..',
-                          'models',
+                          'training',
+                          'model',
                           'pose',
-                          'train2_iter_500000.caffemodel'),
+                          'test2.caffemodel'),
             _caffe.TEST)
         _LOGGER.info("Done!")
     _LOGGER.debug("Processing image...")
