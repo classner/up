@@ -99,10 +99,10 @@ def segment_person(image, part=False, pose=None, probabilities=True):
                           'segmentation',
                           'testpy_test_31_500_pkg_dorder.prototxt'),
             _os.path.join(_os.path.abspath(_os.path.dirname(__file__)),
-                          '..',
-                          'models',
+                          'training',
+                          'model',
                           'segmentation',
-                          'train2_iter_30000.caffemodel'),
+                          'test2.caffemodel'),
             _caffe.TEST)
         _LOGGER.info("Done!")
     _LOGGER.debug("Processing image...")
