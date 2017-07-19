@@ -18,6 +18,7 @@ layer {
     mean_value: 123
   }
   pose_data_param {
+    root_folder: "${DATA_ROOT}"
     source: "${EXP}/list/${TRAIN_SET}.txt"
     joint_pairs_stats: "/is/ps2/classner/workspace/segmenting_people/code/pose_experiments/tools/all_stats.txt"
     num_classes: ${NUM_LABELS}

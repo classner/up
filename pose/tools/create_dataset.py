@@ -78,7 +78,7 @@ def get_landmark_positions(stored_parameter_fp, resolution, landmarks):
     return camera.r.T.copy()
 
 
-def add_dataset(dset_fp, list_ids, up3d_fp,  # pylint: disable=too-many-locals, too-many-arguments, too-many-statements, too-many-branches
+def add_dataset(dset_fp, dset_fromroot, list_ids, up3d_fp,  # pylint: disable=too-many-locals, too-many-arguments, too-many-statements, too-many-branches
                 train_list_f, val_list_f, train_val_list_f, test_list_f, scale_f,
                 train_spec, val_spec, test_spec,
                 target_person_size, landmarks, train_crop, test_crop, running_idx,
@@ -153,18 +153,10 @@ def add_dataset(dset_fp, list_ids, up3d_fp,  # pylint: disable=too-many-locals, 
                 landmark_pos_swapped = landmark_pos[:, rlswap_landmarks_91]
             landmark_pos_swapped[0, :] = image.shape[1] - landmark_pos_swapped[0, :]
             image_swapped = image[:, ::-1, :]
-            if landmark_pos.shape[1] == 14:
-                # Use core visualization for 14 joints.
-                vis_im_swapped = vs.visualize_pose(image_swapped,
-                                                   landmark_pos_swapped,
-                                                   size_factor=1,
-                                                   connections=connections_lsp,
-                                                   display=False)
-            else:
-                vis_im_swapped = vs.visualize_pose_91(image_swapped,
-                                                      landmark_pos_swapped,
-                                                      size_factor=1,
-                                                      display=False)
+            # Use core visualization for 14 joints.
+            vis_im_swapped = vs.visualize_pose(image_swapped,
+                                               landmark_pos_swapped,
+                                               scale=1)
             if not (only_missing and out_exists):
                 scipy.misc.imsave(path.join(dset_fp, '%05d_image.png' % (running_idx + 1)),
                                   image_swapped)
@@ -196,7 +188,7 @@ def add_dataset(dset_fp, list_ids, up3d_fp,  # pylint: disable=too-many-locals, 
 %d
 """ % (
     list_ids[list_id_idx],
-    path.join(dset_fp, '%05d_image.png' % (running_idx)),
+    path.join('/' + dset_fromroot, '%05d_image.png' % (running_idx)),
     image.shape[0],
     image.shape[1],
     landmark_pos.shape[1]))
@@ -221,7 +213,7 @@ def add_dataset(dset_fp, list_ids, up3d_fp,  # pylint: disable=too-many-locals, 
 %d
 """ % (
     list_ids[list_id_idx],
-    path.join(dset_fp, '%05d_image.png' % (running_idx)),
+    path.join('/' + dset_fromroot, '%05d_image.png' % (running_idx)),
     image.shape[0],
     image.shape[1],
     landmark_pos.shape[1]))
@@ -309,6 +301,7 @@ def cli(suffix, target_person_size, crop=513, test_crop=513,  # pylint: disable=
     list_ids = np.zeros((4,), dtype='int')
     add_dataset(
         dset_fp,
+        dset_fromroot,
         list_ids,
         up3d_fp,
         train_list_f,

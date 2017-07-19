@@ -436,6 +436,8 @@ def predict_pose_from(image_name,  # pylint: disable=too-many-arguments, too-man
         if visualize:
             visim = visualize_pose(image[:, :, ::-1],
                                    pose,
+                                   dash_length=5,
+                                   opacity=0.8,
                                    scale=1.)
             vis_name = out_name + '_vis.png'
             _scipy.misc.imsave(vis_name, visim)

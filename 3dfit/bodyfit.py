@@ -34,9 +34,8 @@ from opendr.renderer import ColoredRenderer as _ColoredRenderer
 _sys.path.insert(0, _path.join(_path.dirname(__file__), '..'))
 from config import SMPL_FP
 _sys.path.insert(0, SMPL_FP)
-from up_tools.mesh import (Mesh as _Mesh,
-                           ScanToMesh as _ScanToMesh,
-                           GMOf as _GMOf)
+from up_tools.mesh import Mesh as _Mesh
+from up_tools.robustifiers import GMOf as _GMOf
 from up_tools.model import joints_lsp, connections_lsp, get_pose_names
 try:
     # Robustify against setup.

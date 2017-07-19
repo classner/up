@@ -8,6 +8,7 @@ from PIL import Image
 
 import numpy as np
 import scipy.misc
+import scipy.misc as sm
 import click
 import tqdm
 
@@ -257,11 +258,13 @@ def _cutoff_tile(sm, num_tiles, idx, cut_off, is_x):
 @click.argument("caffe_prototxt", type=click.Path(dir_okay=False, readable=True))
 @click.argument("caffe_model", type=click.Path(dir_okay=False, readable=True))
 @click.argument("image_list_file", type=click.Path(dir_okay=False, readable=True))
+@click.argument("dset_root", type=click.Path(file_okay=False, readable=True))
 @click.argument("output_folder", type=click.Path(file_okay=False, writable=True))
 @click.argument("caffe_install_path", type=click.Path(file_okay=False, readable=True))
 def main(caffe_prototxt,  # pylint: disable=too-many-arguments, too-many-locals, too-many-statements
          caffe_model,
          image_list_file,
+         dset_root,
          output_folder,
          caffe_install_path):
     """Store and visualize the pose results for a model."""
@@ -272,7 +275,8 @@ def main(caffe_prototxt,  # pylint: disable=too-many-arguments, too-many-locals,
     caffe.set_mode_gpu()
     with open(image_list_file, 'r') as inf:
         image_list = inf.readlines()
-    image_list = [line for line in image_list if line.startswith('/')]
+    image_list = [path.join(dset_root, line[1:])
+                  for line in image_list if line.startswith('/')]
     n_landmarks = int(image_list_file[image_list_file.find('_')+1:
                                       image_list_file.find('_')+3])
     for imgnames in tqdm.tqdm(image_list):
@@ -289,10 +293,10 @@ def main(caffe_prototxt,  # pylint: disable=too-many-arguments, too-many-locals,
                           path.basename(imgname) + '.npy'),
                 landmark_locs)
         vis_im = visualize_pose(im[:, :, ::-1],
-                                landmark_locs, scale=1.)
-        vis_image = Image.fromarray(vis_im)
-        vis_image.save(path.join(output_folder,
-                                 path.basename(imgname) + '.npy.vis.png'))
+                                landmark_locs, scale=1., dash_length=5)
+        sm.imsave(path.join(output_folder,
+                            path.basename(imgname) + '.npy.vis.png'),
+                  vis_im)
 
 
 if __name__ == '__main__':
