@@ -1,0 +1,19 @@
+train_net: "${EXP}/config/${NET_ID}/train_${TRAIN_SET}.prototxt"
+
+lr_policy: "multistep"
+multistep_lr: 0.0001
+stepvalue: 10000
+multistep_lr: 0.002
+stepvalue: 430000
+multistep_lr: 0.0002
+stepvalue: 730000
+multistep_lr: 0.0001
+
+display: 20
+max_iter: 500000
+momentum: 0.9
+weight_decay: 0.0001
+
+snapshot: 50000
+snapshot_prefix: "${EXP}/model/${NET_ID}/train2"
+solver_mode: GPU

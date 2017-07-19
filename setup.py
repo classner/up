@@ -11,7 +11,7 @@ import os.path as path
 import numpy as np
 import config
 
-VERSION = '0.1'
+VERSION = '1.0'
 REQS = [str(ir.req) for ir in parse_requirements('requirements.txt',
                                                  session='tmp')]
 

@@ -3,8 +3,10 @@
 *.egg-info
 *.z
 build
-segmentation/training
-pose/training
+segmentation/training/features
+segmentation/training/states
+pose/training/features
+pose/training/states
 up_tools/sample2meshdist.cpp
 up_tools/fast_derivatives/smpl_derivatives.cpp
 models/pose/deepercut.caffemodel

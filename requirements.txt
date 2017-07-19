@@ -7,7 +7,6 @@ click
 opendr
 chumpy
 pillow
-cython
 fasteners
 h5py
 pymp-pypi
