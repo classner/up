@@ -55,7 +55,7 @@ predictor.
 The `pose` folder containes infrastructure for 91 keypoint pose prediction. Use
 the script `pose/tools/create_dataset.py` with a dataset name of your choice and
 a target person size of 500 pixels to create the pose data from UP-3D,
-alternatively download it from our (http://up.is.tuebingen.mpg.de)[website].
+alternatively download it from our [website](http://up.is.tuebingen.mpg.de).
 
 Configure a model by creating the model configuration folder
 `pose/training/config/modelname` by cloning the `template` model. Then you can
