@@ -74,7 +74,7 @@ _ROT_EST = None
 _SHAPE_EST = None
 _POSE_EST = None
 
-_DEBUG = True
+_DEBUG = False
 if _DEBUG:
     _DEBUG_SFX = "_debug"
 else:
@@ -597,4 +597,6 @@ if __name__ == '__main__':
     _logging.basicConfig(level=_logging.INFO, format=LOGFORMAT)
     _logging.getLogger("opendr.lighting").setLevel(_logging.WARN)
     _logging.getLogger("OpenGL.GL.shaders").setLevel(_logging.WARN)
+    if _DEBUG:
+        _LOGGER.critical("DEBUG mode enabled!")
     cli()  # pylint: disable=no-value-for-parameter

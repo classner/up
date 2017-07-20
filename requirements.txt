@@ -5,6 +5,7 @@ joblib
 tqdm
 click
 opendr
+cython
 chumpy
 pillow
 fasteners
