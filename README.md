@@ -58,11 +58,15 @@ a target person size of 500 pixels to create the pose data from UP-3D,
 alternatively download it from our (http://up.is.tuebingen.mpg.de)[website].
 
 Configure a model by creating the model configuration folder
-`pose/training/config/modelname` by cloning the `template` model. Then you can
-run `run.sh {train,test,evaluate,trfull,tefull,evfull} modelname` to run
-training, testing or evaluation on either the reduced training set with the
-held-out validation set as test data or the full training set and real test
-data.
+`pose/training/config/modelname` by cloning the `pose` model. Then you can run
+`run.sh {train,test,evaluate,trfull,tefull,evfull} modelname` to run training,
+testing or evaluation on either the reduced training set with the held-out
+validation set as test data or the full training set and real test data. We
+initialized our training from the original Resnet models
+(https://github.com/KaimingHe/deep-residual-networks). You can do so by
+downloading the model and saving it as
+`pose/training/config/modelname/init.caffemodel`.
+
 
 The `pose.py` script will produce a pose prediction for an image. It assumes
 that a model with name `pose` has been trained (or downloaded). We normalize the
@@ -77,7 +81,10 @@ The folder setup is just as for the keypoint estimation: use
 UP-3D data or download it (again, we used target person size 500). Then use
 `run.sh {train,test,evaluate,trfull,tefull,evfull} modelname` as described above
 to create your models. The `segmentation.py` script can be used to get
-segmentation results for the model named `segmentation` from and image.
+segmentation results for the model named `segmentation` from and image. We
+initialized our models from the Deeplab trained models available
+(http://liangchiehchen.com/projects/DeepLabv2_resnet.html)[here]. Move the
+model file to `segmentation/training/modelname/init.caffemodel`.
 
 ## Website, citation, license
 
