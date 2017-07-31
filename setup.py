@@ -6,10 +6,6 @@ The setup script for the entire project.
 """
 from setuptools import setup
 from pip.req import parse_requirements
-from setuptools.extension import Extension
-import os.path as path
-import numpy as np
-import config
 
 VERSION = '1.0'
 REQS = [str(ir.req) for ir in parse_requirements('requirements.txt',

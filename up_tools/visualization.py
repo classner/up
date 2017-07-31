@@ -29,8 +29,8 @@ def visualize_pose(image,  # pylint: disable=too-many-arguments, dangerous-defau
         if this_connections == []:
             this_connections = connections_lsp
         this_lm_region_mapping = region_mapping
-    vs.visualize_pose(image, pose, line_thickness, dash_length,
-                      opacity, circle_color, this_connections,
-                      this_lm_region_mapping,
-                      skip_unconnected_joints,
-                      scale)
+    return vs.visualize_pose(image, pose, line_thickness, dash_length,
+                             opacity, circle_color, this_connections,
+                             this_lm_region_mapping,
+                             skip_unconnected_joints,
+                             scale)

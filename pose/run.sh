@@ -8,6 +8,7 @@ CAFFE_PYTHON=${CAFFE_DIR}/${CAFFE_BUILD_FOLDER}/install/python
 EXP=training
 if [ "${EXP}" = "training" ]; then
     echo "Running pose"
+    DATA_ROOT=$(../config.py POSE_DATA_FP)
 else
     echo "Wrong exp name"
     exit 1
@@ -82,6 +83,7 @@ if [ ${RUN_TEST} -eq 1 ]; then
              ${CONFIG_DIR}/testpy_${TEST_SET}.prototxt \
              ${MODEL} \
              ${EXP}/list/${TEST_SET}.txt \
+             ${DATA_ROOT} \
              ${FEATURE_DIR}/${TEST_SET}/seg_score \
              ${CAFFE_PYTHON}"
         echo Running ${CMD} && ${CMD}
@@ -159,6 +161,7 @@ if [ ${RUN_TEST2} -eq 1 ]; then
              ${CONFIG_DIR}/testpy_${TEST_SET}.prototxt \
              ${MODEL} \
              ${EXP}/list/${TEST_SET}.txt \
+             ${DATA_ROOT} \
              ${FEATURE_DIR}/${TEST_SET}/seg_score \
              ${CAFFE_PYTHON}"
         echo Running ${CMD} && ${CMD}
