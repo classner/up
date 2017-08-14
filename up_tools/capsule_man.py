@@ -104,7 +104,6 @@ collisions = [[0, 16], # hip and leftForeArm
 
 
 def get_capsules(model, wrt_betas=None, length_regs=None, rad_regs=None):
-    from experiments.federica.rgb_utils.capsule_ch import Capsule
     from opendr.geometry import Rodrigues
 
     n_shape_dofs = model.betas.r.size
