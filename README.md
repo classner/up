@@ -83,7 +83,7 @@ UP-3D data or download it (again, we used target person size 500). Then use
 to create your models. The `segmentation.py` script can be used to get
 segmentation results for the model named `segmentation` from and image. We
 initialized our models from the Deeplab trained models available
-(here)[http://liangchiehchen.com/projects/DeepLabv2_resnet.html]. Move the
+[here](http://liangchiehchen.com/projects/DeepLabv2_resnet.html). Move the
 model file to `segmentation/training/modelname/init.caffemodel`.
 
 ## Website, citation, license
