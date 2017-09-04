@@ -83,7 +83,7 @@ UP-3D data or download it (again, we used target person size 500). Then use
 to create your models. The `segmentation.py` script can be used to get
 segmentation results for the model named `segmentation` from and image. We
 initialized our models from the Deeplab trained models available
-(http://liangchiehchen.com/projects/DeepLabv2_resnet.html)[here]. Move the
+(here)[http://liangchiehchen.com/projects/DeepLabv2_resnet.html]. Move the
 model file to `segmentation/training/modelname/init.caffemodel`.
 
 ## Website, citation, license
@@ -104,3 +104,8 @@ If you use this code for your research, please consider citing us:
 ```
 
 License: [Creative Commons Non-Commercial 4.0](https://creativecommons.org/licenses/by-nc/4.0/).
+
+The code for 3D fitting is based on the [http://smplify.is.tue.mpg.de](SMPLify)
+code. Parts of the files in the folder `up_tools` (`capsule_ch.py`,
+`capsule_man.py`, `max_mixture_prior.py`, `sphere_collisions.py`) fall under the
+SMPLify license conditions.

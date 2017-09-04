@@ -1,4 +1,13 @@
-"""Define the capsule target."""
+"""
+Copyright 2016 Max Planck Society, Federica Bogo, Angjoo Kanazawa. All
+rights reserved.
+
+This software is provided for research purposes only.
+
+By using this software you agree to the terms of the SMPLify license here:
+
+     http://smplify.is.tue.mpg.de/license
+"""
 import numpy as np
 import chumpy as ch
 try:

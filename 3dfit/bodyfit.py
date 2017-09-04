@@ -52,7 +52,8 @@ except ImportError:
         from smpl_webuser.verts import verts_decorated
 from up_tools.sphere_collisions import SphereCollisions as _SphereCollisions
 from up_tools.max_mixture_prior import MaxMixtureCompletePrior as _MaxMixtureCompletePrior
-from up_tools.model import landmarks_91, landmark_mesh_91, enum
+from up_tools.model import landmarks_91, landmark_mesh_91
+from up_tools.camera import rotateY
 
 from clustertools.log import LOGFORMAT
 
@@ -118,15 +119,6 @@ def create_renderer(w=640,  # pylint: disable=too-many-arguments
     rn.camera = _ProjectPoints(rt=rt, t=t, f=f, c=c, k=k)
     rn.frustum = {'near':near, 'far':far, 'height':h, 'width':w}
     return rn
-
-def rotateY(points, angle):
-    """Rotate the points by a specified angle."""
-    ry = _np.array([
-        [_np.cos(angle),     0.,     _np.sin(angle)],  # pylint: disable=bad-whitespace
-        [0.,                 1.,     0.            ],  # pylint: disable=bad-whitespace
-        [-_np.sin(angle),    0.,     _np.cos(angle)]   # pylint: disable=bad-whitespace
-    ])
-    return _np.dot(points, ry)
 
 def simple_renderer(rn, meshes, yrot=0):
     """Create a renderer, optionally with texture."""
