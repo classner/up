@@ -1,0 +1,13 @@
+Copyright (C) 2017 University of Tübingen, Christoph Lassner.
+
+This code is available under the Creative Commons Attribution-NonCommercial 4.0
+International Public License (https://creativecommons.org/licenses/by-nc/4.0/)
+with the exception of the following files in the folder up_tools:
+
+* capsule_ch.py,
+* capsule_man.py,
+* max_mixture_prior.py,
+* sphere_collisions.py,
+
+which fall under the SMPLify license conditions available here:
+http://smplify.is.tuebingen.mpg.de/downloads .
