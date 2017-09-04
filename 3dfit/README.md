@@ -2,8 +2,8 @@
 
 This implements the 3D fitting to 14 or 91 keypoints with the SMPLify fitting
 objective, currently without the silhouette fitting objective due to licensing
-issues. The code is based on the (http://smplify.is.tuebingen.mpg.de)[SMPLify
-code]. If you find it useful for your research, please consider also citing
+issues. The code is based on the [http://smplify.is.tuebingen.mpg.de](SMPLify
+code). If you find it useful for your research, please consider also citing
 
 ```
 @inproceedings{Bogo:ECCV:2016,
