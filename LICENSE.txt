@@ -1,4 +1,4 @@
-Copyright (C) 2017 University of Tübingen.
+Copyright (C) 2017 University of Tübingen, Christoph Lassner.
 
 This code is available under the Creative Commons Attribution-NonCommercial 4.0
 International Public License (https://creativecommons.org/licenses/by-nc/4.0/)
