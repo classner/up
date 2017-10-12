@@ -43,7 +43,7 @@ except ImportError:
 _LOGGER = _logging.getLogger(__name__)
 MODEL_NEUTRAL_PATH = _os.path.join(
     _path.dirname(__file__), '..', 'models', '3D',
-    'lbs_tj10smooth6_0fixed_normalized_locked_hybrid_model_novt.pkl')
+    'basicModel_neutral_lbs_10_207_0_v1.0.0.pkl')
 MODEL_NEUTRAL = load_model(MODEL_NEUTRAL_PATH)
 _TEMPLATE_MESH = _Mesh(filename=_os.path.join(_os.path.dirname(__file__),
                                               '..', 'models', '3D',

@@ -44,7 +44,7 @@ LOGGER = logging.getLogger(__name__)
 DSET_ROOT_FP = DIRECT3D_DATA_FP
 MODEL_NEUTRAL_PATH = path.join(
     path.dirname(__file__), '..', '..', 'models', '3D',
-    'lbs_tj10smooth6_0fixed_normalized_locked_hybrid_model_novt.pkl')
+    'basicModel_neutral_lbs_10_207_0_v1.0.0.pkl')
 MODEL_NEUTRAL = load_model(MODEL_NEUTRAL_PATH)
 _TEMPLATE_MESH = Mesh(filename=path.join(
     path.dirname(__file__), '..', '..',

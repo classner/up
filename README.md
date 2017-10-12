@@ -108,4 +108,6 @@ License: [Creative Commons Non-Commercial 4.0](https://creativecommons.org/licen
 The code for 3D fitting is based on the [SMPLify](http://smplify.is.tue.mpg.de)
 code. Parts of the files in the folder `up_tools` (`capsule_ch.py`,
 `capsule_man.py`, `max_mixture_prior.py`, `robustifiers.py`,
-`sphere_collisions.py`) fall under the SMPLify license conditions.
+`sphere_collisions.py`) as well as the model
+`models/3D/basicModel_neutral_lbs_10_207_0_v1.0.0.pkl` fall under the SMPLify
+license conditions.

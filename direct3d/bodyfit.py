@@ -52,7 +52,7 @@ import chumpy as _ch
 _MODEL_NEUTRAL_PATH = _path.join(
     _path.dirname(__file__), '..',
     'models', '3D',
-    'lbs_tj10smooth6_0fixed_normalized_locked_hybrid_model_novt.pkl')
+    'basicModel_neutral_lbs_10_207_0_v1.0.0.pkl')
 _MODEL_NEUTRAL = load_model(_MODEL_NEUTRAL_PATH)
 _TEMPLATE_MESH = Mesh(filename=_path.join(
     _path.dirname(__file__), '..',

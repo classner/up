@@ -190,7 +190,7 @@ def cli(filename, segmented=False, steps=1, scale=1.):
         'neutral': _load_model(
             _os.path.join(_os.path.dirname(__file__),
                           '..', 'models', '3D',
-                          'lbs_tj10smooth6_0fixed_normalized_locked_hybrid_model_novt.pkl'))
+                          'basicModel_neutral_lbs_10_207_0_v1.0.0.pkl'))
     }
     fileending = filename[-4:]
     pkl_fname = filename.replace(fileending, '.pkl')

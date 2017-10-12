@@ -85,7 +85,7 @@ _MOD_PATH = _os.path.abspath(_os.path.dirname(__file__))
 # Models:
 _MODEL_NEUTRAL_FNAME = _os.path.join(
     _MOD_PATH, '..', 'models', '3D',
-    'lbs_tj10smooth6_0fixed_normalized_locked_hybrid_model_novt.pkl')
+    'basicModel_neutral_lbs_10_207_0_v1.0.0.pkl')
 _MODEL_NEUTRAL = _load_model(_MODEL_NEUTRAL_FNAME)
 # Torso joint IDs (used for estimating camera position).
 _CID_TORSO = [landmarks_91.rhip,
