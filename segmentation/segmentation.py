@@ -16,7 +16,7 @@ import numpy as _np
 import scipy as _scipy
 import click as _click
 import sys  # pylint: disable=wrong-import-order
-sys.path.insert(0, sys.path.join(sys.path.dirname(__file__), '..'))
+sys.path.insert(0, _os.path.join(_os.path.dirname(__file__), '..'))
 from config import DEEPLAB_BUILD_FP
 sys.path.insert(0, DEEPLAB_BUILD_FP)
 import caffe as _caffe  # pylint: disable=import-error
