@@ -34,7 +34,6 @@ _MEAN = _np.array([104.008, 116.669, 122.675])  # In BGR order.
 
 # CNN model store.
 _MODEL = None
-_PART_MODEL = None
 
 _BORDER = 0
 _RF = 513
@@ -43,7 +42,7 @@ _ISIZE_STEP = 513
 _DETECTION_THRESHOLD = 0.
 
 # pylint: disable=too-many-locals, too-many-branches, too-many-statements
-def segment_person(image, part=False, pose=None, probabilities=True):
+def segment_person(image, pose=None, probabilities=True):
     """
     Get the segmentation for an image.
 
@@ -58,9 +57,6 @@ def segment_person(image, part=False, pose=None, probabilities=True):
     :param image: np.array(3D).
       The image in height X width X BGR format.
 
-    :param part: bool.
-      Whether to use the part segmentation or the human segmentation model.
-
     :param pose: np.array(2D) or None.
       The estimated pose in (2+) X {14; 91} format or None.
 
@@ -68,48 +64,27 @@ def segment_person(image, part=False, pose=None, probabilities=True):
     =======
 
     :param segmentation: np.array(3D).
-      Depending on the parameters `part` and `probabilities`, returns either:
-        * A numpy array with height x width x (1 | 7) with the probabilities
-          for the parts or the human, if `probabilities` is set to True.
-        * A numpy array with height x width x 3 with the labels in {0, 1} or
-          [0, ..., 6] for the parts if `probabilities` is set to False.
+      Depending on the parameter `probabilities`, returns
+      a numpy array with height x width x 31 with the probabilities
+      for the parts or the human, if `probabilities` is set to True.
     """
-    global _MODEL, _PART_MODEL  # pylint: disable=global-statement
-    if not part and _MODEL is None:
-        _LOGGER.info("Loading human segmentation model...")
-        _MODEL = _caffe.Net(
-            _os.path.join(_os.path.abspath(_os.path.dirname(__file__)),
-                          '..',
-                          'models',
-                          'segmentation',
-                          'testpy_test_31_500_pkg_dorder.prototxt'),
-            _os.path.join(_os.path.abspath(_os.path.dirname(__file__)),
-                          '..',
-                          'models',
-                          'segmentation',
-                          'train2_iter_30000.caffemodel'),
-            _caffe.TEST)
-        _LOGGER.info("Done!")
-    elif part and _PART_MODEL is None:
-        _LOGGER.info("Loading human part segmentation model...")
-        _PART_MODEL = _caffe.Net(
-            _os.path.join(_os.path.abspath(_os.path.dirname(__file__)),
-                          '..',
-                          'models',
-                          'segmentation',
-                          'testpy_test_31_500_pkg_dorder.prototxt'),
-            _os.path.join(_os.path.abspath(_os.path.dirname(__file__)),
-                          'training',
-                          'model',
-                          'segmentation',
-                          'test2.caffemodel'),
-            _caffe.TEST)
-        _LOGGER.info("Done!")
+    global _MODEL  # pylint: disable=global-statement
+    _LOGGER.info("Loading human part segmentation model...")
+    _MODEL = _caffe.Net(
+        _os.path.join(_os.path.abspath(_os.path.dirname(__file__)),
+                      '..',
+                      'models',
+                      'segmentation',
+                      'testpy_test_31_500_pkg_dorder.prototxt'),
+        _os.path.join(_os.path.abspath(_os.path.dirname(__file__)),
+                      '..',
+                      'models',
+                      'segmentation',
+                      'test2.caffemodel'),
+        _caffe.TEST)
+    _LOGGER.info("Done!")
     _LOGGER.debug("Processing image...")
-    if part:
-        model = _PART_MODEL
-    else:
-        model = _MODEL
+    model = _MODEL
     if pose is not None:
         pose = pose.copy()
         # Get an initial estimate of the bounding box.
@@ -137,10 +112,7 @@ def segment_person(image, part=False, pose=None, probabilities=True):
     results = _process_image(prepim, model)
 
     # Cleanup.
-    if part:
-        out_c = 31
-    else:
-        out_c = 1
+    out_c = 31
     if probabilities:
         upscale_prep = _np.zeros((dsim.shape[0],
                                   dsim.shape[1],
@@ -148,11 +120,8 @@ def segment_person(image, part=False, pose=None, probabilities=True):
         upscale_res = _np.empty((image.shape[0],
                                  image.shape[1],
                                  out_c), dtype='float32')
-        if part:
-            upscale_prep[boxminy:boxmaxy+1, boxminx:boxmaxx+1, :] = \
-                results.transpose((1, 2, 0))
-        else:
-            upscale_prep[boxminy:boxmaxy+1, boxminx:boxmaxx+1, 0] = results[1]
+        upscale_prep[boxminy:boxmaxy+1, boxminx:boxmaxx+1, :] = \
+                                                results.transpose((1, 2, 0))
         for c_idx in range(out_c):
             upscale_res[:, :, c_idx] = _scipy.misc.imresize(
                 upscale_prep[:, :, c_idx],
@@ -305,11 +274,6 @@ def _process_image(image, model):
                type=_click.Path(dir_okay=True, writable=True),
                help='Where to store the result.',
                default=None)
-@_click.option('--part',
-               type=_click.BOOL,
-               is_flag=True,
-               help='Use part segmentation instead of foreground-background.',
-               default=False)
 @_click.option('--probabilities',
                type=_click.BOOL,
                is_flag=True,
@@ -337,7 +301,6 @@ def _process_image(image, model):
 def predict_segmentation_from(image_name,
                               pose_name=None,
                               out_name=None,
-                              part=False,
                               probabilities=False,
                               visualize=True,
                               folder_image_suffix='.png',
@@ -364,26 +327,15 @@ def predict_segmentation_from(image_name,
         _os.mkdir(out_name)
     for image_name in images:
         if out_name_provided is None:
-            if part:
-                if probabilities:
-                    out_name = image_name + '_psegmentation_prob.npz'
-                else:
-                    out_name = image_name + '_psegmentation.npz'
+            if probabilities:
+                out_name = image_name + '_psegmentation_prob.npz'
             else:
-                if probabilities:
-                    out_name = image_name + '_segmentation_prob.npz'
-                else:
-                    out_name = image_name + '_segmentation.npz'
+                out_name = image_name + '_psegmentation.npz'
         elif process_folder:
-            if part:
-                if probabilities:
-                    out_name = _os.path.join(out_name_provided,
-                                             _os.path.basename(image_name) +
-                                             '_psegmentation_prob.npz')
-                else:
-                    out_name = _os.path.join(out_name_provided,
-                                             _os.path.basename(image_name) +
-                                             '_psegmentation.npz')
+            if probabilities:
+                out_name = _os.path.join(out_name_provided,
+                                         _os.path.basename(image_name) +
+                                         '_psegmentation_prob.npz')
             else:
                 if probabilities:
                     out_name = _os.path.join(out_name_provided,
@@ -415,46 +367,35 @@ def predict_segmentation_from(image_name,
         else:
             image = image[:, :, ::-1]
 
-        segmentation = segment_person(image, part, pose, probabilities)
+        segmentation = segment_person(image, pose, probabilities)
         _np.savez_compressed(out_name, segmentation=segmentation)
         if visualize:
             if probabilities:
-                if part:
-                    prep_segmentation = _np.argmax(segmentation, axis=2)
-                    VIS_FAC = 255. / 31.
-                else:
-                    prep_segmentation = segmentation[:, :, 0]
-                    VIS_FAC = 255.
+                prep_segmentation = _np.argmax(segmentation, axis=2)
+                VIS_FAC = 255. / 31.
                 visim = _np.tile((prep_segmentation * VIS_FAC).astype('uint8')[:, :, None],
                                  (1, 1, 3))
-                if _CV2_AVAILABLE and not part:
-                    visim = _cv2.applyColorMap(visim, _cv2.COLORMAP_AUTUMN)[:, :, ::-1]
-                    visim = (visim.astype('float32') * 0.6 +
-                             image.astype('float32') * 0.4).astype('uint8')
             else:
-                if part:
-                    # Map back the colors.
-                    segmentation = segmentation[:, :, 0]
-                    seg_orig = _np.ones_like(image) * 255
-                    for y_idx in range(segmentation.shape[0]):
-                        for x_idx in range(segmentation.shape[1]):
-                            if segmentation[y_idx, x_idx] > 0:
-                                seg_orig[y_idx, x_idx, :] = mdl.regions.reverse_mapping.keys()[  # pylint: disable=no-member
-                                    segmentation[y_idx, x_idx] - 1]  # pylint: disable=no-member
-                    # Save.
-                    #_scipy.misc.imsave(out_name + '_orig_vis.png', seg_orig)
-                    # Blend.
-                    #_scipy.misc.imsave(out_name + '_orig_blend_vis.png',
-                    #                   (seg_orig.astype('float32') * 0.5 +
-                    #                    image[:, :, ::-1].astype('float32') * 0.5).astype('uint8'))
-                    # Blend only on foreground.
-                    blend_fg = image[:, :, ::-1].copy()
-                    fg_regions = _np.dstack([(segmentation != 0)[:, :, None] for _ in range(3)])
-                    blend_fg[fg_regions] = ((seg_orig[fg_regions].astype('float32') * 0.5 +
-                                             image[fg_regions].astype('float32') * 0.5).astype('uint8'))  # pylint: disable=line-too-long
-                    visim = blend_fg
-                else:
-                    visim = segmentation * 255
+                # Map back the colors.
+                segmentation = segmentation[:, :, 0]
+                seg_orig = _np.ones_like(image) * 255
+                for y_idx in range(segmentation.shape[0]):
+                    for x_idx in range(segmentation.shape[1]):
+                        if segmentation[y_idx, x_idx] > 0:
+                            seg_orig[y_idx, x_idx, :] = mdl.regions.reverse_mapping.keys()[  # pylint: disable=no-member
+                                segmentation[y_idx, x_idx] - 1]  # pylint: disable=no-member
+                # Save.
+                #_scipy.misc.imsave(out_name + '_orig_vis.png', seg_orig)
+                # Blend.
+                #_scipy.misc.imsave(out_name + '_orig_blend_vis.png',
+                #                   (seg_orig.astype('float32') * 0.5 +
+                #                    image[:, :, ::-1].astype('float32') * 0.5).astype('uint8'))
+                # Blend only on foreground.
+                blend_fg = image[:, :, ::-1].copy()
+                fg_regions = _np.dstack([(segmentation != 0)[:, :, None] for _ in range(3)])
+                blend_fg[fg_regions] = ((seg_orig[fg_regions].astype('float32') * 0.5 +
+                                         image[fg_regions].astype('float32') * 0.5).astype('uint8'))  # pylint: disable=line-too-long
+                visim = blend_fg
             vis_name = out_name + '_vis.png'
             _scipy.misc.imsave(vis_name, visim)
 

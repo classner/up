@@ -1,4 +1,4 @@
-name: "segmentation"
+name: "pkg500_dorder"
 
 input: "data"
 input_shape: {
@@ -21456,15 +21456,15 @@ layer {
 
 ############################### classifiers ##########################
 layer {
-  name: "fc1_training_c0"
+  name: "fc1_segnpose_c0"
   type: "Convolution"
   bottom: "res5c"
-  top: "fc1_training_c0"
+  top: "fc1_segnpose_c0"
   param {
-    name: "fc1_training_c0_w"
+    name: "fc1_segnpose_c0_w"
   }
   param {
-    name: "fc1_training_c0_b"
+    name: "fc1_segnpose_c0_b"
   }
   convolution_param {
     num_output: 32
@@ -21475,15 +21475,15 @@ layer {
 }
 
 layer {
-  name: "fc1_training_c1"
+  name: "fc1_segnpose_c1"
   type: "Convolution"
   bottom: "res5c"
-  top: "fc1_training_c1"
+  top: "fc1_segnpose_c1"
   param {
-    name: "fc1_training_c1_w"
+    name: "fc1_segnpose_c1_w"
   }
   param {
-    name: "fc1_training_c1_b"
+    name: "fc1_segnpose_c1_b"
   }
   convolution_param {
     num_output: 32
@@ -21494,15 +21494,15 @@ layer {
 }
 
 layer {
-  name: "fc1_training_c2"
+  name: "fc1_segnpose_c2"
   type: "Convolution"
   bottom: "res5c"
-  top: "fc1_training_c2"
+  top: "fc1_segnpose_c2"
   param {
-    name: "fc1_training_c2_w"
+    name: "fc1_segnpose_c2_w"
   }
   param {
-    name: "fc1_training_c2_b"
+    name: "fc1_segnpose_c2_b"
   }
   convolution_param {
     num_output: 32
@@ -21513,15 +21513,15 @@ layer {
 }
 
 layer {
-  name: "fc1_training_c3"
+  name: "fc1_segnpose_c3"
   type: "Convolution"
   bottom: "res5c"
-  top: "fc1_training_c3"
+  top: "fc1_segnpose_c3"
   param {
-    name: "fc1_training_c3_w"
+    name: "fc1_segnpose_c3_w"
   }
   param {
-    name: "fc1_training_c3_b"
+    name: "fc1_segnpose_c3_b"
   }
   convolution_param {
     num_output: 32
@@ -21534,12 +21534,12 @@ layer {
 ### SUM the all branches
 
 layer {
-  bottom: "fc1_training_c0"
-  bottom: "fc1_training_c1"
-  bottom: "fc1_training_c2"
-  bottom: "fc1_training_c3"
-  top: "fc1_training"
-  name: "fc1_training"
+  bottom: "fc1_segnpose_c0"
+  bottom: "fc1_segnpose_c1"
+  bottom: "fc1_segnpose_c2"
+  bottom: "fc1_segnpose_c3"
+  top: "fc1_segnpose"
+  name: "fc1_segnpose"
   type: "Eltwise"
   eltwise_param {
     operation: SUM
@@ -21549,15 +21549,15 @@ layer {
 ######################## classifier for res 0.5 #################
 
 layer {
-  name: "fc1_training_res05_c0"
+  name: "fc1_segnpose_res05_c0"
   type: "Convolution"
   bottom: "res5c_res05"
-  top: "fc1_training_res05_c0"
+  top: "fc1_segnpose_res05_c0"
   param {
-    name: "fc1_training_c0_w"
+    name: "fc1_segnpose_c0_w"
   }
   param {
-    name: "fc1_training_c0_b"
+    name: "fc1_segnpose_c0_b"
   }
   convolution_param {
     num_output: 32
@@ -21568,15 +21568,15 @@ layer {
 }
 
 layer {
-  name: "fc1_training_res05_c1"
+  name: "fc1_segnpose_res05_c1"
   type: "Convolution"
   bottom: "res5c_res05"
-  top: "fc1_training_res05_c1"
+  top: "fc1_segnpose_res05_c1"
   param {
-    name: "fc1_training_c1_w"
+    name: "fc1_segnpose_c1_w"
   }
   param {
-    name: "fc1_training_c1_b"
+    name: "fc1_segnpose_c1_b"
   }
   convolution_param {
     num_output: 32
@@ -21586,15 +21586,15 @@ layer {
   }
 }
 layer {
-  name: "fc1_training_res05_c2"
+  name: "fc1_segnpose_res05_c2"
   type: "Convolution"
   bottom: "res5c_res05"
-  top: "fc1_training_res05_c2"
+  top: "fc1_segnpose_res05_c2"
   param {
-    name: "fc1_training_c2_w"
+    name: "fc1_segnpose_c2_w"
   }
   param {
-    name: "fc1_training_c2_b"
+    name: "fc1_segnpose_c2_b"
   }
   convolution_param {
     num_output: 32
@@ -21604,15 +21604,15 @@ layer {
   }
 }
 layer {
-  name: "fc1_training_res05_c3"
+  name: "fc1_segnpose_res05_c3"
   type: "Convolution"
   bottom: "res5c_res05"
-  top: "fc1_training_res05_c3"
+  top: "fc1_segnpose_res05_c3"
   param {
-    name: "fc1_training_c3_w"
+    name: "fc1_segnpose_c3_w"
   }
   param {
-    name: "fc1_training_c3_b"
+    name: "fc1_segnpose_c3_b"
   }
   convolution_param {
     num_output: 32
@@ -21625,12 +21625,12 @@ layer {
 ### SUM the all branches
 
 layer {
-  bottom: "fc1_training_res05_c0"
-  bottom: "fc1_training_res05_c1"
-  bottom: "fc1_training_res05_c2"
-  bottom: "fc1_training_res05_c3"
-  top: "fc1_training_res05"
-  name: "fc1_training_res05"
+  bottom: "fc1_segnpose_res05_c0"
+  bottom: "fc1_segnpose_res05_c1"
+  bottom: "fc1_segnpose_res05_c2"
+  bottom: "fc1_segnpose_res05_c3"
+  top: "fc1_segnpose_res05"
+  name: "fc1_segnpose_res05"
   type: "Eltwise"
   eltwise_param {
     operation: SUM
@@ -21641,15 +21641,15 @@ layer {
 ################### classifier for res 0.75 ###########
 
 layer {
-  name: "fc1_training_res075_c0"
+  name: "fc1_segnpose_res075_c0"
   type: "Convolution"
   bottom: "res5c_res075"
-  top: "fc1_training_res075_c0"
+  top: "fc1_segnpose_res075_c0"
   param {
-    name: "fc1_training_c0_w"
+    name: "fc1_segnpose_c0_w"
   }
   param {
-    name: "fc1_training_c0_b"
+    name: "fc1_segnpose_c0_b"
   }
   convolution_param {
     num_output: 32
@@ -21660,15 +21660,15 @@ layer {
 }
 
 layer {
-  name: "fc1_training_res075_c1"
+  name: "fc1_segnpose_res075_c1"
   type: "Convolution"
   bottom: "res5c_res075"
-  top: "fc1_training_res075_c1"
+  top: "fc1_segnpose_res075_c1"
   param {
-    name: "fc1_training_c1_w"
+    name: "fc1_segnpose_c1_w"
   }
   param {
-    name: "fc1_training_c1_b"
+    name: "fc1_segnpose_c1_b"
   }
   convolution_param {
     num_output: 32
@@ -21679,15 +21679,15 @@ layer {
 }
 
 layer {
-  name: "fc1_training_res075_c2"
+  name: "fc1_segnpose_res075_c2"
   type: "Convolution"
   bottom: "res5c_res075"
-  top: "fc1_training_res075_c2"
+  top: "fc1_segnpose_res075_c2"
   param {
-    name: "fc1_training_c2_w"
+    name: "fc1_segnpose_c2_w"
   }
   param {
-    name: "fc1_training_c2_b"
+    name: "fc1_segnpose_c2_b"
   }
   convolution_param {
     num_output: 32
@@ -21698,15 +21698,15 @@ layer {
 }
 
 layer {
-  name: "fc1_training_res075_c3"
+  name: "fc1_segnpose_res075_c3"
   type: "Convolution"
   bottom: "res5c_res075"
-  top: "fc1_training_res075_c3"
+  top: "fc1_segnpose_res075_c3"
   param {
-    name: "fc1_training_c3_w"
+    name: "fc1_segnpose_c3_w"
   }
   param {
-    name: "fc1_training_c3_b"
+    name: "fc1_segnpose_c3_b"
   }
   convolution_param {
     num_output: 32
@@ -21719,12 +21719,12 @@ layer {
 ### SUM the all branches
 
 layer {
-  bottom: "fc1_training_res075_c0"
-  bottom: "fc1_training_res075_c1"
-  bottom: "fc1_training_res075_c2"
-  bottom: "fc1_training_res075_c3"
-  top: "fc1_training_res075"
-  name: "fc1_training_res075"
+  bottom: "fc1_segnpose_res075_c0"
+  bottom: "fc1_segnpose_res075_c1"
+  bottom: "fc1_segnpose_res075_c2"
+  bottom: "fc1_segnpose_res075_c3"
+  top: "fc1_segnpose_res075"
+  name: "fc1_segnpose_res075"
   type: "Eltwise"
   eltwise_param {
     operation: SUM
@@ -21732,9 +21732,9 @@ layer {
 }
 ############### upsampling ##################
 layer {
-  bottom: "fc1_training_res05"
-  top: "fc1_training_res05_interp"
-  name: "fc1_training_res05_interp"
+  bottom: "fc1_segnpose_res05"
+  top: "fc1_segnpose_res05_interp"
+  name: "fc1_segnpose_res05_interp"
   type: "Interp"
   interp_param {
     zoom_factor: 2
@@ -21743,9 +21743,9 @@ layer {
   }
 }
 layer {
-  bottom: "fc1_training_res075"
-  top: "fc1_training_res075_interp"
-  name: "fc1_training_res075_interp"
+  bottom: "fc1_segnpose_res075"
+  top: "fc1_segnpose_res075_interp"
+  name: "fc1_segnpose_res075_interp"
   type: "Interp"
   interp_param {
     zoom_factor: 4
@@ -21757,9 +21757,9 @@ layer {
 
 ############### merging multiscale results #####################
 layer {
-  bottom: "fc1_training"
-  bottom: "fc1_training_res075_interp"
-  bottom: "fc1_training_res05_interp"
+  bottom: "fc1_segnpose"
+  bottom: "fc1_segnpose_res075_interp"
+  bottom: "fc1_segnpose_res05_interp"
   top: "fc_fusion"
   name: "fc_fusion"
   type: "Eltwise"
@@ -21786,83 +21786,3 @@ layer {
   bottom: "fc1_interp"
   top: "prob"
 }
-
-# layer {
-#   bottom: "fc1_interp"
-#   top: "fc1_interp_argmax"
-#   name: "fc1_interp_argmax"
-#   type: "ArgMax"
-#   argmax_param {
-#     axis: 1
-#   }
-# }
-# layer {
-#   name: "fc1_mat"
-#   type: "MatWrite"
-# #  bottom: "fc1_interp_argmax"
-#   bottom: "fc1_interp"
-#   include {
-#     phase: TEST
-#   }
-#   mat_write_param {
-#     prefix: "training/features/segmentation/val_31_500_dgb2/fc1/"
-#     source: "training/list/val_31_500_dgb2_id.txt"
-#     strip: 0
-#     period: 1
-#   }
-# }
-
-# #### crf ###
-# layer {
-#   bottom: "fc1_interp"
-#   bottom: "data_dim"
-#   bottom: "data"
-#   top: "crf_inf"
-#   name: "crf"
-#   type: "DenseCRF"
-#   dense_crf_param { 
-#      max_iter: 10
-#      pos_w: 3
-#      pos_xy_std: 1
-#      bi_w: 4
-#      bi_xy_std: 67
-#      bi_rgb_std: 3
-#  }
-#   include: { phase: TEST }
-# }
-# layer {
-#   bottom: "crf_inf"
-#   top: "crf_inf_argmax"
-#   name: "crf_inf_argmax"
-#   type: "ArgMax"
-#   argmax_param {
-#     axis: 1
-#   }
-# }
-# layer {
-#   name: "crf_mat"
-#   type: "MatWrite"
-#   bottom: "crf_inf_argmax"
-#   include {
-#     phase: TEST
-#   }
-#   mat_write_param {
-#     prefix: "training/features/segmentation/val_31_500_dgb2/crf/"
-#     source: "training/list/val_31_500_dgb2${TEST_SET_POSTFIX}_id.txt"
-#     strip: 0
-#     period: 1
-#   }
-# }
-
-# # add accuracy layer for evaluating val result
-# layer {
-#   name: "crf_accuracy"
-#   type: "SegAccuracy"
-#   bottom: "crf_inf"
-#   bottom: "label"
-#   top: "crf_accuracy"
-#   seg_accuracy_param {
-#     ignore_label: 255
-#     reset: false
-#   }
-# }
