@@ -20,7 +20,10 @@ from up_tools.camera import rotateY
 _sys.path.insert(0, _path.join(_path.dirname(__file__), '..'))
 from config import SMPL_FP
 _sys.path.insert(0, SMPL_FP)
-from smpl_webuser.serialization import load_model as _load_model
+try:
+    from smpl.serialization import load_model as _load_model
+except:
+    from smpl_webuser.serialization import load_model as _load_model
 
 _LOGGER = _logging.getLogger(__name__)
 _TEMPLATE_MESH = Mesh(filename=_os.path.join(_os.path.dirname(__file__),

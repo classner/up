@@ -40,6 +40,8 @@ from up_tools.model import joints_lsp, connections_lsp, get_pose_names
 try:
     # Robustify against setup.
     from smpl.serialization import load_model as _load_model
+    from smpl.lbs import global_rigid_transformation as _global_rigid_transformation
+    from smpl.verts import verts_decorated
 except ImportError:
     # pylint: disable=import-error
     try:
@@ -100,6 +102,18 @@ with open(_HEAD_CORR_FNAME, 'r') as f:
 _REGRESSORS_FNAME = _os.path.join(
     _MOD_PATH, '..', 'models', '3D', 'regressors_locked_normalized_hybrid.npz')
 _REGRESSORS = _np.load(_REGRESSORS_FNAME)
+# Project the regressors on the first 10 beta dimensions.
+_REGP = dict()
+_REGP['v2lens'] = _REGRESSORS['v2lens']
+_REGP['betas2lens'] = _REGRESSORS['betas2lens'][tuple(range(10) + [
+    300,
+]), :]
+_REGP['v2rads'] = _REGRESSORS['v2rads']
+_REGP['betas2rads'] = _REGRESSORS['betas2rads'][tuple(range(10) + [
+    300,
+]), :]
+_REGRESSORS = _REGP
+
 
 
 def create_renderer(w=640,  # pylint: disable=too-many-arguments
