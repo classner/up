@@ -37,6 +37,9 @@ before the training script. The `models` folder contains pretrained models and
 infos, `patches` a patch for deeplab caffe, `tests` some Python tests and
 `up_tools` some Python tools that are shared between modalities.
 
+There is a Docker image available that has been created by TheWebMonks here (not
+affiliated with the authors): https://github.com/TheWebMonks/demo-2d3d .
+
 ### Bodyfit
 
 The adjusted SMPLify code to fit bodies to 91 keypoints is located in the folder
