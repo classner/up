@@ -1,6 +1,7 @@
 """Mesh tools."""
 # pylint: disable=invalid-name
 import numpy as np
+import numpy.lib.recfunctions as rfn
 import random
 import scipy.sparse as sp
 import plyfile
