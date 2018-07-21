@@ -1,24 +1,25 @@
 #!/usr/bin/env python
 """Render a model."""
-# pylint: disable=invalid-name
-import sys as _sys
+import cPickle as pickle
+import logging as _logging
 import os as _os
 import os.path as _path
-import logging as _logging
-import cPickle as pickle
+# pylint: disable=invalid-name
+import sys as _sys
+from config import SMPL_FP
 from copy import copy
 
-import numpy as np
-import cv2
 import click as _click
-
-from opendr.renderer import ColoredRenderer, TexturedRenderer
+import cv2
+import numpy as np
 from opendr.camera import ProjectPoints
 from opendr.lighting import LambertianPointLight
-from up_tools.mesh import Mesh
+from opendr.renderer import ColoredRenderer, TexturedRenderer
+
 from up_tools.camera import rotateY
+from up_tools.mesh import Mesh
+
 _sys.path.insert(0, _path.join(_path.dirname(__file__), '..'))
-from config import SMPL_FP
 _sys.path.insert(0, SMPL_FP)
 try:
     from smpl.serialization import load_model as _load_model
@@ -28,6 +29,8 @@ except:
 _LOGGER = _logging.getLogger(__name__)
 _TEMPLATE_MESH = Mesh(filename=_os.path.join(_os.path.dirname(__file__),
                                              '..', 'models', '3D', 'template.ply'))
+_TEMPLATE_MESH_SEGMENTED = Mesh(filename=_os.path.join(_os.path.dirname(__file__),
+                                                       '..', 'models', '3D', 'template-bodyparts.ply'))
 _COLORS = {
     'pink': [.6, .6, .8],
     'cyan': [.7, .75, .5],
@@ -133,16 +136,15 @@ def render(model, image, cam, steps, segmented=False, scale=1.):
     """Render a sequence of views from a fitted body model."""
     assert steps >= 1
     if segmented:
-        texture = _os.path.join(_os.path.dirname(__file__),
-                                'models', '3D', 'mask_filled.png')
+        texture = None
+        mesh = copy(_TEMPLATE_MESH_SEGMENTED)
     else:
         texture = None
-    mesh = copy(_TEMPLATE_MESH)
+        mesh = copy(_TEMPLATE_MESH)
+        mesh.vc = _COLORS['pink']
     #cmesh = Mesh(_os.path.join(_os.path.dirname(__file__),
     #                           'template-bodyparts-corrected-labeled-split5.ply'))
     #mesh.vc = cmesh.vc.copy()
-    mesh.vc = _COLORS['pink']
-
     # render ply
     model.betas[:len(cam['betas'])] = cam['betas']
     model.pose[:] = cam['pose']
@@ -169,6 +171,8 @@ def render(model, image, cam, steps, segmented=False, scale=1.):
                                  meshes=[mesh],
                                  yrot=light_yrot,
                                  texture=texture)
+        if segmented:
+            imtmp = imtmp[:, :, ::-1]
         renderings.append(imtmp * 255.)
     return renderings
 

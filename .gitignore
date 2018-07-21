@@ -25,3 +25,5 @@ applications
 
 models/pose/train2_iter_500000.caffemodel
 .*_cache
+.DS_Store
+.python-version
