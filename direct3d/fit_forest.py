@@ -6,10 +6,8 @@ import sys
 import os.path as path
 import h5py
 import numpy as np
-import sys
 import logging
 import click
-from up_tools.model import landmarks_91
 import joblib
 import pyximport; pyximport.install()  # pylint: disable=multiple-statements
 from conversions import (  # pylint: disable=import-error
@@ -19,7 +17,12 @@ from clustertools.log import LOGFORMAT
 
 sys.path.insert(0, path.join(path.dirname(__file__),
                              '..'))
-from config import DIRECT3D_DATA_FP
+
+try:
+    from up_tools.model import landmarks_91
+    from config import DIRECT3D_DATA_FP
+except:
+    print("Make sure this script is in the up/direct3d/ folder.")
 
 LOGGER = logging.getLogger(__name__)
 OUT_DIR = path.join(path.dirname(__file__),
