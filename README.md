@@ -17,7 +17,7 @@ Requirements:
 * If you want to train a pose model, the Deepercut caffe
   (https://github.com/eldar/deepcut-cnn).
 * If you want to get deepercut-cnn predictions, download the deepercut
-  .caffemodel file and place it in models/pose/deepercut.caffemodel.
+  .caffemodel file and place it in `models/pose/deepercut.caffemodel`.
 * Edit the file `config.py` to set up the paths.
 
 The rest of the requirements is then automatically installed when running:
@@ -30,7 +30,7 @@ python setup.py develop
 
 For each of the tasks we described, there is one subfolder with the related
 executables. All files that are being used for training or testing models are
-executable and provide a full synposis when run with the `--help` option. In the
+executable and provide a full synopsis when run with the `--help` option. In the
 respective `tools` subfolder for each task, there is a `create_dataset.py`
 script to summarize the data in the proper formats. This must be usually run
 before the training script. The `models` folder contains pretrained models and
