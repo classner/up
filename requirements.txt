@@ -11,5 +11,5 @@ pillow
 fasteners
 h5py
 pymp-pypi
-plyfile
+meshio
 git+https://github.com/classner/clustertools.git#egg=clustertools
