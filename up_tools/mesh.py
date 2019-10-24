@@ -1,10 +1,7 @@
 """Mesh tools."""
 # pylint: disable=invalid-name
 import numpy as np
-import numpy.lib.recfunctions as rfn
-import random
-import scipy.sparse as sp
-import plyfile
+import meshio
 
 
 class Mesh(object):  # pylint: disable=too-few-public-methods
@@ -20,37 +17,35 @@ class Mesh(object):  # pylint: disable=too-few-public-methods
             if vc is not None:
                 assert len(v) == len(vc)
 
-        if filename is not None:
-            plydata = plyfile.PlyData.read(filename)
-            self.v = np.hstack((np.atleast_2d(plydata['vertex']['x']).T,
-                                np.atleast_2d(plydata['vertex']['y']).T,
-                                np.atleast_2d(plydata['vertex']['z']).T))
-            self.vc = np.hstack((np.atleast_2d(plydata['vertex']['red']).T,
-                                 np.atleast_2d(plydata['vertex']['green']).T,
-                                 np.atleast_2d(plydata['vertex']['blue']).T)).astype('float') / 255.
-            # Unfortunately, the vertex indices for the faces are stored in an
-            # object array with arrays as objects. :-/ Work around this.
-            self.f = np.vstack([np.atleast_2d(elem) for
-                                elem in list(plydata['face']['vertex_indices'])]).astype('uint32')
-        else:
+        if filename is None:
             self.v = v
             self.vc = vc
             self.f = f
+        else:
+            mesh = meshio.read(filename)
+            self.v = mesh.points
+            self.vc = (
+                np.column_stack(
+                    [
+                        mesh.point_data["red"],
+                        mesh.point_data["green"],
+                        mesh.point_data["blue"],
+                    ]
+                ).astype(np.float)
+                / 255.0
+            )
+            self.f = mesh.cells["triangle"]
 
     def write_ply(self, out_name):
         """Write to a .ply file."""
-        vertex = rfn.merge_arrays([
-            self.v.view(dtype=[('x', 'f4'), ('y', 'f4'), ('z', 'f4'),]),
-            (self.vc * 255.).astype('uint8').view(
-                dtype=[('red', 'u1'), ('green', 'u1'), ('blue', 'u1')]),
-            ],
-                                  flatten=True,
-                                  usemask=False)
-        face = self.f.view(dtype=[('vertex_indices', 'i4', (3,))])[:, 0]
-        vert_el = plyfile.PlyElement.describe(vertex, 'vertex')
-        face_el = plyfile.PlyElement.describe(face, 'face')
-        plyfile.PlyData([
-            vert_el,
-            face_el
-        ]).write(out_name)
-
+        colors = (self.vc * 255).astype("uint8")
+        meshio.write_points_cells(
+            out_name,
+            self.v,
+            {"triangle": self.f},
+            point_data={
+                "red": colors[:, 0],
+                "green": colors[:, 1],
+                "blue": colors[:, 2],
+            },
+        )
