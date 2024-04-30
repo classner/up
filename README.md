@@ -19,6 +19,8 @@ Requirements:
 * If you want to get deepercut-cnn predictions, download the deepercut
   .caffemodel file and place it in `models/pose/deepercut.caffemodel`.
 * Edit the file `config.py` to set up the paths.
+* Register on https://smpl.is.tue.mpg.de/ to obtain a SMPL license and place
+  the model file at `models/3D/basicModel_neutral_lbs_10_207_0_v1.0.0.pkl`.
 
 The rest of the requirements is then automatically installed when running:
 
